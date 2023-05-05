@@ -47,6 +47,8 @@ blockquote {
   margin: 0;
 }
 
-.ticket-ellipsis {  
-  text-overflow: ellipsis;
+.spinner_container{
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
 }

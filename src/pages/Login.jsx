@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Auth/AuthProvider";
 import { useForm } from "./../hooks/useForm";
-// import { Alert } from "../Components/Alert";
+import { Alert } from "../components/Alert";
+import { PushSpinner } from "react-spinners-kit";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser, loading, alert } = useContext(AuthContext);
+  console.log("🚀 ~ loading:", loading);
 
   const initialForm = {
     email: "rumania@rumania.com",
@@ -27,7 +29,7 @@ export const Login = () => {
     <div className='layout-container'>
       <main className='auth'>
         <div className='auth__formContainer'>
-          {/* {alert.msg && <Alert alert={alert} />} */}
+          {alert.msg && <Alert alert={alert} />}
           <img
             src='https://wiri.la/static/media/logo.2dd585668426aa81b057bd026cb89956.svg'
             alt='logo wiri'
@@ -49,15 +51,16 @@ export const Login = () => {
               onChange={handleInputChange}
               value={values.password}
             />
-            <input
-              type='submit'
-              value='iniciar sesión'
-              className='auth__button'
-            />
+            <button type='submit' className='auth__button'>
+              {!loading ? (
+                "iniciar sesión"
+              ) : (
+                <span style={{'margin': '0px'}} className='spinner_container'>
+                  <PushSpinner size={20} color='#FFF' />
+                </span>
+              )}
+            </button>
           </form>
-          <Link to='/register'>
-            <p className='auth__p'>¿Aún no tienes cuenta?</p>
-          </Link>
         </div>
       </main>
     </div>

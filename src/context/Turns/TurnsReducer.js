@@ -1,4 +1,4 @@
-import { DOCTOR_SELECTED, GET_DOCTORS, GET_TURNS } from "./types";
+import { DOCTOR_SELECTED, GET_DOCTORS, GET_TURNS, UPDATE_TURNS } from "./types";
 
 export const turnsReducer = (state, action) => {  
   switch (action.type) {
@@ -16,6 +16,11 @@ export const turnsReducer = (state, action) => {
       return {
         ...state,
         doctor_selected: action.payload,
+      };
+    case UPDATE_TURNS:
+      return {
+        ...state,
+        turns: action.payload,
       };
     default:
       return state;

@@ -14,6 +14,10 @@ export const Header = () => {
     getDoctors();
   }, []);
 
+  useEffect(() => {
+    setDoctorSelected("");
+  }, [stateTurns]);
+
   const handleLogOut = () => {
     navigate("/");
     localStorage.clear();
@@ -46,6 +50,9 @@ export const Header = () => {
           </select>
         )}
       </div>
+      <button className='header__button' onClick={() => getTurns(state.id)}>
+        Mis Turnos
+      </button>
       <div className='header__left'>
         <p className='header__p'>Hola! {state.name} </p>
         <button type='button' className='header__button' onClick={handleLogOut}>
