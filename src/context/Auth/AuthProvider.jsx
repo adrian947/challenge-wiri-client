@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = async (user) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await client.post("/login", user);
 
       localStorage.setItem("token", data.token);
@@ -55,12 +55,12 @@ export const AuthProvider = ({ children }) => {
         type: LOGIN,
         payload: data,
       });
-      setLoading(false)
+      setLoading(false);
       return true;
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       showAlert({
-        msg: error.response.data.msg,
+        msg: error ? "error" : error.response.data.msg,
         error: true,
       });
     }

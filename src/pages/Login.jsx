@@ -8,7 +8,6 @@ import { PushSpinner } from "react-spinners-kit";
 export const Login = () => {
   const navigate = useNavigate();
   const { loginUser, loading, alert } = useContext(AuthContext);
-  console.log("🚀 ~ loading:", loading);
 
   const initialForm = {
     email: "rumania@rumania.com",
@@ -55,7 +54,7 @@ export const Login = () => {
               {!loading ? (
                 "iniciar sesión"
               ) : (
-                <span style={{'margin': '0px'}} className='spinner_container'>
+                <span style={{ margin: "0px" }} className='spinner_container'>
                   <PushSpinner size={20} color='#FFF' />
                 </span>
               )}

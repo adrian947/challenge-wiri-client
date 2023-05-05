@@ -6,7 +6,12 @@ import { TurnsContext } from "../context/Turns/TurnsProvider";
 export const Header = () => {
   const navigate = useNavigate();
   const { state, logOut } = useContext(AuthContext);
-  const { getDoctors, state: stateTurns, getTurns } = useContext(TurnsContext);
+  const {
+    getDoctors,
+    state: stateTurns,
+    getTurns,
+    setTitle,
+  } = useContext(TurnsContext);
 
   const [doctorSelected, setDoctorSelected] = useState("");
 
@@ -25,6 +30,9 @@ export const Header = () => {
   };
 
   const handleSelection = (event) => {
+    const nameDoctor =
+      event.target.options[event.target.selectedIndex].getAttribute("name");
+    setTitle(`Estos son los turnos de ${nameDoctor}`);
     setDoctorSelected(event.target.value);
     getTurns(event.target.value);
   };
@@ -43,14 +51,20 @@ export const Header = () => {
               Elegir medico
             </option>
             {stateTurns.doctors.map((doc) => (
-              <option key={doc.id} value={doc.id}>
+              <option key={doc.id} value={doc.id} name={doc.name}>
                 {doc.name}
               </option>
             ))}
           </select>
         )}
       </div>
-      <button className='header__button' onClick={() => getTurns(state.id)}>
+      <button
+        className='header__button'
+        onClick={() => {
+          getTurns(state.id);
+          setTitle("Tus turnos");
+        }}
+      >
         Mis Turnos
       </button>
       <div className='header__left'>

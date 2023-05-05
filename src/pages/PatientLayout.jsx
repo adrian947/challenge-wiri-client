@@ -1,15 +1,26 @@
-import { useContext, useState } from "react";
+import moment from "./../utils/moment";
+import { useContext } from "react";
 import { TurnsContext } from "../context/Turns/TurnsProvider";
 import { AuthContext } from "./../context/Auth/AuthProvider";
 import { PushSpinner } from "react-spinners-kit";
+import { Alert } from "../components/Alert";
+import { usePagination } from "../hooks/usePagination";
 
 export const PatientLayout = () => {
-  const { state, handleReserveTurn, getTurns, handleCancelTurns, loading } =
-    useContext(TurnsContext);
+  const {
+    state,
+    handleReserveTurn,
+    getTurns,
+    handleCancelTurns,
+    loading,
+    alert,
+    title,
+    setTitle,
+  } = useContext(TurnsContext);
   const { state: user } = useContext(AuthContext);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const objectsPerPage = 10;
+  const { currentPage, currentItems, totalPages, nextPage, prevPage } =
+    usePagination(state.turns);
 
   if (loading)
     return (
@@ -21,34 +32,19 @@ export const PatientLayout = () => {
   if (!state.turns.length)
     return <h3 className='turns__title'>No hay turnos disponibles</h3>;
 
-  // Calcula la cantidad total de páginas según el número de objetos y la cantidad de objetos por página
-  const quantityPages = Math.ceil(state.turns.length / objectsPerPage);
-
-  // Obtiene los objetos que se mostrarán en la página actual
-  const indexLastObject = currentPage * objectsPerPage;
-  const indexFirstObject = indexLastObject - objectsPerPage;
-  const turns = state.turns.slice(indexFirstObject, indexLastObject);
-  function handleClickAnterior() {
-    if (currentPage > 1) {
-      setCurrentPage((currentPage) => currentPage - 1);
-    }
+  function parseDate(date) {
+    return moment(date).format("dddd, D [de] MMMM [de] YYYY");
   }
 
-  function handleClickSiguiente() {
-    if (currentPage < quantityPages) {
-      setCurrentPage((currentPage) => currentPage + 1);
-    }
-  }
   return (
     <div className='turns__container'>
       <div className='turns__cardContainer'>
-        {turns.map((turn) => (
+        {alert.msg && <Alert alert={alert} />}
+        <h3 className='turns__title'>{title}</h3>
+        {currentItems.map((turn) => (
           <div className='turns__card' key={turn.id}>
             <div className='turns__image'>
-              <img
-                src='	https://randomuser.me/api/portraits/men/16.jpg'
-                alt={turn.doctor.name}
-              />
+              <img src={turn.doctor.photo_url} alt={turn.doctor.name} />
             </div>
             <div className='turns__info'>
               <div>
@@ -58,10 +54,12 @@ export const PatientLayout = () => {
                 </p>
               </div>
               <div className='turns__dateInfoContainer'>
-                <p>Fecha: {turn.date}</p>
+                <p>Fecha: {parseDate(turn.date)}</p>
                 <p>Hora:{turn.hour}</p>
                 <p>{turn.doctor.address}</p>
-                <p>Precio: {turn.coverage ?? "Cobertura Wiri"}</p>
+                <p>
+                  Precio: {turn.doctor.coverage ? "Cobertura Wiri" : "$1500"}
+                </p>
                 <p className='turns__status'>
                   Estado:{" "}
                   <span
@@ -79,7 +77,11 @@ export const PatientLayout = () => {
                 <button
                   className='turns__button'
                   onClick={() =>
-                    handleReserveTurn(turn, user).then(() => getTurns(user.id))
+                    handleReserveTurn(turn, user, turn.id_doctor).then(() => {
+                      setTitle("Tus turnos");
+
+                      getTurns(user.id);
+                    })
                   }
                 >
                   Resevar
@@ -99,15 +101,15 @@ export const PatientLayout = () => {
       <div className='turns__buttonContainer'>
         <button
           className='turns__button'
-          onClick={handleClickAnterior}
+          onClick={prevPage}
           disabled={currentPage === 1}
         >
           Anterior
         </button>
         <button
           className='turns__button'
-          onClick={handleClickSiguiente}
-          disabled={currentPage === quantityPages}
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
         >
           Siguiente
         </button>

@@ -3,10 +3,12 @@ import { turnsReducer } from "./TurnsReducer";
 import client from "../../service/clientAxios";
 import { GET_DOCTORS, GET_TURNS, UPDATE_TURNS } from "./types";
 import { tokenAuth } from "../../service/authTokenHeaders";
+import { useAlert } from "../../hooks/useAlert";
 
 export const TurnsContext = createContext();
 
 const TurnsProvider = ({ children }) => {
+  const { alert, showAlert } = useAlert();
   const initialState = {
     turns: [],
     doctors: [],
@@ -14,6 +16,7 @@ const TurnsProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(turnsReducer, initialState);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState(false);
 
   const getDoctors = async () => {
     const { data } = await client.get("/get_doctors");
@@ -38,12 +41,11 @@ const TurnsProvider = ({ children }) => {
       });
       setLoading(false);
     } catch (error) {
-      console.log("🚀 ~ error:", error);
       setLoading(false);
     }
   };
 
-  const handleReserveTurn = async (turn, user) => {
+  const handleReserveTurn = async (turn, user, id_doctor) => {
     try {
       setLoading(true);
       const { data } = await client.post(
@@ -51,13 +53,20 @@ const TurnsProvider = ({ children }) => {
         {
           id_turn: turn.id,
           id_patient: user.id,
+          id_doctor,
         },
         tokenAuth()
       );
       setLoading(false);
+      return data;
     } catch (error) {
       console.log("🚀 ~ error:", error);
+      showAlert({
+        msg: error.response.data.msg,
+        error: true,
+      });
       setLoading(false);
+      throw error;
     }
   };
 
@@ -72,19 +81,21 @@ const TurnsProvider = ({ children }) => {
         },
         tokenAuth()
       );
-  
+
       const turnsFiltered = state.turns.filter((turn) => turn.id !== data.id);
-  
+
       dispatch({
         type: UPDATE_TURNS,
         payload: turnsFiltered,
       });
       setLoading(false);
     } catch (error) {
-      console.log("🚀 ~ error:", error);
+      showAlert({
+        msg: error.response.data.msg,
+        error: true,
+      });
       setLoading(false);
     }
-  
   };
 
   return (
@@ -92,10 +103,13 @@ const TurnsProvider = ({ children }) => {
       value={{
         state,
         loading,
+        alert,
+        title,
         getDoctors,
         getTurns,
         handleReserveTurn,
         handleCancelTurns,
+        setTitle,
       }}
     >
       {children}
