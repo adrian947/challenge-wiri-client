@@ -1,0 +1,26 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+h1,
+h2,
+h3,
+h6 {
+  margin: 0;
+}
+h1 {
+  font-size: 80px;
+
+  @include m.tablet {
+    font-size: 150px;
+  }
+}
+
+h2 {
+  font-size: 100px;
+}
+h3 {
+  font-size: 56px;
+}
+a {
+  text-decoration: none;
+}

@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+
+.alert {
+  text-align: center;
+  color: v.$white;
+  padding: 0.5rem;
+}
+
+.error {
+  background-color: v.$alert;
+}
+
+.info {
+  background-color: v.$primary;
+}

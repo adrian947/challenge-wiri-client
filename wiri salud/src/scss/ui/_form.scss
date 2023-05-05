@@ -1,0 +1,51 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.auth {
+  display: flex;
+  height: calc(100vh - 5rem);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &__formContainer {
+    padding: 1rem;
+    max-width: 32rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+
+    @include m.tablet {
+      width: 30rem;
+    }
+  }
+
+  &__input {
+    padding: 1rem;
+    outline: none;
+    border: none;
+    margin: 0.5rem 0;
+    border-radius: 10px;
+    box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 23px -4px rgba(0, 0, 0, 0.75);
+  }
+
+  &__button {
+    @extend .auth__input;
+    @include m.button(v.$primary, v.$white);
+  }
+
+  &__p {
+    color: v.$white;
+    transition: all 0.3s linear;
+    font-size: 1.1rem;
+    &:hover {
+      color: #000;
+      cursor: pointer;
+    }
+  }
+}

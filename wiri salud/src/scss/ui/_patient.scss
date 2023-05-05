@@ -1,0 +1,83 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.turns__title {
+  color: #fff;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.turns__container {
+  @include m.tablet {
+    padding: 0rem 1rem;
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
+.turns__cardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.turns__image {
+  img {
+    border-radius: 50%;
+  }
+}
+
+.turns__card {
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
+}
+.turns__dateInfoContainer {
+  margin-top: 1rem;
+  @include m.tablet {
+    margin-top: unset;
+  }
+}
+.turns__info {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
+  @include m.tablet {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.turns__button {
+  @include m.button(v.$primary, v.$white);
+  border: none;
+  padding: 0.5rem;
+  @include m.tablet {
+    padding: 1rem;
+  }
+}
+.turns__button:disabled {
+  background-color: grey;
+}
+.turns__primaryInfo {
+  font-size: 1.5rem;
+  @include m.tablet {
+    font-size: 2rem;
+  }
+}
+.turns__secondaryInfo {
+  color: #9d9999;
+  font-size: 0.8rem;
+  @include m.tablet {
+    font-size: 1rem;
+  }
+}
+.turns__buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}

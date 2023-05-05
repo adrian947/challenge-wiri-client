@@ -1,0 +1,33 @@
+@use "variables" as v;
+
+/** Media Queries **/
+@mixin mobile {
+  @media (min-width: v.$phone) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: v.$tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: v.$desktop) {
+    @content;
+  }
+}
+
+/* format button */
+@mixin button($bgCol, $col) {
+  background-color: $bgCol;
+  text-transform: uppercase;
+  color: $col;
+  transition: all 0.3s linear;
+
+  &:hover {
+    background-color: darken($color: $bgCol, $amount: 10);
+    cursor: pointer;
+  }
+}
