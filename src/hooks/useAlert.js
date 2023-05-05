@@ -10,7 +10,7 @@ export const useAlert = () => {
     });
     setTimeout(() => {
       setAlert({});
-    }, 2000);
+    }, 5000);
   };
 
   return { alert, showAlert };

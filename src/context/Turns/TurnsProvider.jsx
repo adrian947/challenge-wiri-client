@@ -58,9 +58,12 @@ const TurnsProvider = ({ children }) => {
         tokenAuth()
       );
       setLoading(false);
+      showAlert({
+        msg: data.msg,
+        error: false,
+      });
       return data;
     } catch (error) {
-      console.log("🚀 ~ error:", error);
       showAlert({
         msg: error.response.data.msg,
         error: true,
@@ -87,6 +90,10 @@ const TurnsProvider = ({ children }) => {
       dispatch({
         type: UPDATE_TURNS,
         payload: turnsFiltered,
+      });
+      showAlert({
+        msg: "Tu turno se cancelo correctamente",
+        error: false,
       });
       setLoading(false);
     } catch (error) {
