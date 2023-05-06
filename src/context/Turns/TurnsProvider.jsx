@@ -104,6 +104,23 @@ const TurnsProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const handleGetTurnsDoctor = async ({id, start_date, end_date}) => {    
+    try {
+      setLoading(true);
+      const { data } = await client.get("/turns-doctor", {
+        params: { id, start_date, end_date },
+        ...tokenAuth(),
+      });
+
+      dispatch({
+        type: GET_TURNS,
+        payload: data,
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
   return (
     <TurnsContext.Provider
@@ -117,6 +134,7 @@ const TurnsProvider = ({ children }) => {
         handleReserveTurn,
         handleCancelTurns,
         setTitle,
+        handleGetTurnsDoctor,
       }}
     >
       {children}

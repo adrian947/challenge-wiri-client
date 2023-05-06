@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   background-color: v.$white;
 
@@ -23,7 +24,6 @@
   &__left {
     display: flex;
     align-items: center;
-    margin-top: 1rem;
     @include m.tablet {
       margin-top: 0;
     }
@@ -39,9 +39,39 @@
     @include m.button(v.$primary, v.$white);
     padding: 0.5rem;
     border: none;
+    min-width: 10rem;
   }
   &__select {
-    padding: 0.5rem;
+    padding: 0.3rem 0;
     outline: none;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    border-top: 1px solid #e1e1e1;
+    padding-top: 1rem;
+    @include m.tablet {
+      flex-direction: row;
+      border-top: unset;
+      padding-top: unset;
+    }
+  }
+  &__label {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+  &__input {
+    padding: 0.4rem;
+  }
+  &__buttonContainer {
+    display: flex;
+    gap: 0.5rem;
+  }
+  &__optionContainer {
+    display: flex;
+    gap: 1rem;
   }
 }
