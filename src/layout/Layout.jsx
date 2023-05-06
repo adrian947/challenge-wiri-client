@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/Auth/AuthProvider";
-import { Header } from "../Components/Header";
-import { PatientLayout } from "../pages/PatientLayout";
+import { Header } from "../components/Header";
+import { PatientScreen } from "../pages/PatientScreen";
+import { DoctorScreen } from "../pages/DoctorScreen";
 
 export const Layout = () => {
   const { state, loading } = useContext(AuthContext);
@@ -14,7 +15,7 @@ export const Layout = () => {
         {!state.auth && <Navigate to='/' />}
         <Header role={state.role} />
 
-        {state.role === "doctor" ? <h1>hola doctor</h1> : <PatientLayout />}
+        {state.role === "doctor" ? <DoctorScreen/> : <PatientScreen />}
       </div>
     </div>
   );

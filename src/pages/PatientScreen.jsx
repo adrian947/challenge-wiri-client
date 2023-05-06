@@ -1,12 +1,12 @@
-import moment from "./../utils/moment";
+import moment from "../utils/moment";
 import { useContext } from "react";
 import { TurnsContext } from "../context/Turns/TurnsProvider";
-import { AuthContext } from "./../context/Auth/AuthProvider";
+import { AuthContext } from "../context/Auth/AuthProvider";
 import { PushSpinner } from "react-spinners-kit";
 import { Alert } from "../components/Alert";
 import { usePagination } from "../hooks/usePagination";
 
-export const PatientLayout = () => {
+export const PatientScreen = () => {
   const {
     state,
     handleReserveTurn,
@@ -56,7 +56,7 @@ export const PatientLayout = () => {
               <div className='turns__dateInfoContainer'>
                 <p>Fecha: {parseDate(turn.date)}</p>
                 <p>Hora:{turn.hour}</p>
-                <p>{turn.doctor.address}</p>
+                <p>Lugar: {turn.doctor.address}</p>
                 <p>
                   Precio: {turn.doctor.coverage ? "Cobertura Wiri" : "$1500"}
                 </p>
@@ -79,12 +79,11 @@ export const PatientLayout = () => {
                   onClick={() =>
                     handleReserveTurn(turn, user, turn.id_doctor).then(() => {
                       setTitle("Tus turnos");
-
                       getTurns(user.id);
                     })
                   }
                 >
-                  Resevar
+                  Reservar
                 </button>
               ) : (
                 <button

@@ -39,41 +39,51 @@ export const Header = ({ role }) => {
     getTurns(event.target.value);
   };
 
+  const patientContent = (
+    <>
+      <div className='header__selectContainer'>
+        <p>Elije tu medico</p>
+        {stateTurns.doctors.length && (
+          <select
+            value={doctorSelected}
+            onChange={handleSelection}
+            className='header__select'
+          >
+            <option value='' disabled>
+              Elegir medico
+            </option>
+            {stateTurns.doctors.map((doc) => (
+              <option key={doc.id} value={doc.id} name={doc.name}>
+                {doc.name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      <button
+        className='header__button'
+        onClick={() => {
+          getTurns(state.id);
+          setTitle("Tus turnos");
+        }}
+      >
+        Mis Turnos
+      </button>
+    </>
+  );
+
+  const doctorContent = (
+    <div>
+      <label>desde</label>
+      <input type='date' />
+      <label>hasta</label>
+      <input type='date' />
+    </div>
+  );
+
   return (
     <header className='header'>
-      {role === "patient" && (
-        <>
-          {" "}
-          <div className='header__selectContainer'>
-            <p>Elije tu medico</p>
-            {stateTurns.doctors.length && (
-              <select
-                value={doctorSelected}
-                onChange={handleSelection}
-                className='header__select'
-              >
-                <option value='' disabled>
-                  Elegir medico
-                </option>
-                {stateTurns.doctors.map((doc) => (
-                  <option key={doc.id} value={doc.id} name={doc.name}>
-                    {doc.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-          <button
-            className='header__button'
-            onClick={() => {
-              getTurns(state.id);
-              setTitle("Tus turnos");
-            }}
-          >
-            Mis Turnos
-          </button>
-        </>
-      )}
+      {role === "patient" ? patientContent : doctorContent}
       <div className='header__left'>
         <p className='header__p'>Hola! {state.name} </p>
         <button type='button' className='header__button' onClick={handleLogOut}>

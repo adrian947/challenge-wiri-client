@@ -19,7 +19,7 @@ const TurnsProvider = ({ children }) => {
   const [title, setTitle] = useState(false);
 
   const getDoctors = async () => {
-    const { data } = await client.get("/get_doctors");
+    const { data } = await client.get("/get_doctors", tokenAuth());
 
     dispatch({
       type: GET_DOCTORS,
