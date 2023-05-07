@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     name: null,
     role: null,
     email: null,
+    coverage: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);

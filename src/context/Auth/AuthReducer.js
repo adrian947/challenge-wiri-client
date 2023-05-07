@@ -11,6 +11,7 @@ export const authReducer = (state, action) => {
         name: action.payload.name,
         role: action.payload.role,
         email: action.payload.email,
+        coverage: action.payload.coverage,
       };
       
     case LOGOUT:
@@ -22,6 +23,7 @@ export const authReducer = (state, action) => {
         role: null,
         email: null,
         id: null,
+        coverage: null,
       };
 
     default:

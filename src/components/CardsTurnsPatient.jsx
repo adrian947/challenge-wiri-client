@@ -4,7 +4,7 @@ import { TurnsContext } from "../context/Turns/TurnsProvider";
 import { parseDate } from "../utils/parseDate";
 import moment from "moment/moment";
 
-export const CardsTurnsPatient = ({ turn }) => {
+export const CardsTurnsPatient = ({ turn }) => {  
   const { handleCancelTurns } = useContext(TurnsContext);
   const { state: user } = useContext(AuthContext);
 

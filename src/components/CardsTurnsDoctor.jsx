@@ -3,15 +3,11 @@ import { AuthContext } from "../context/Auth/AuthProvider";
 import { TurnsContext } from "../context/Turns/TurnsProvider";
 import { parseDate } from "../utils/parseDate";
 
-export const CardsTurnsDoctor = ({turn}) => {
-  const {    
-    handleReserveTurn,
-    getTurns,
-    handleCancelTurns,  
-    setTitle,
-  } = useContext(TurnsContext);
+export const CardsTurnsDoctor = ({ turn }) => {
+  const { handleReserveTurn, getTurns, handleCancelTurns, setTitle } =
+    useContext(TurnsContext);
   const { state: user } = useContext(AuthContext);
-  
+
   return (
     <div className='turns__card' key={turn.id}>
       <div className='turns__image'>
@@ -28,7 +24,7 @@ export const CardsTurnsDoctor = ({turn}) => {
           <p>Fecha: {parseDate(turn.date)}</p>
           <p>Hora:{turn.hour}</p>
           <p>Lugar: {turn.doctor.address}</p>
-          <p>Precio: {turn.doctor.coverage ? "Cobertura Wiri" : "$1500"}</p>
+          <p>Precio: {user.coverage ? "Cobertura Wiri" : "$1500"}</p>
           <p className='turns__status'>
             Estado:{" "}
             <span

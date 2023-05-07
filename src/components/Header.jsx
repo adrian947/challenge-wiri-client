@@ -58,8 +58,7 @@ export const Header = ({ user }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("values", values);
+    e.preventDefault();  
 
     handleGetTurnsDoctor({
       id: user.id,
