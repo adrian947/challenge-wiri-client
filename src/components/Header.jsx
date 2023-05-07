@@ -36,6 +36,13 @@ export const Header = ({ user }) => {
     setDoctorSelected("");
   }, [stateTurns]);
 
+  useEffect(() => {
+    if (user.role === "patient") {
+      getTurns(user.id);
+      setTitle("Tus turnos");
+    }
+  }, []);
+
   const handleLogOut = () => {
     navigate("/");
     localStorage.clear();
@@ -63,7 +70,7 @@ export const Header = ({ user }) => {
 
   const patientContent = (
     <div className='header__optionContainer'>
-      <div className='header__selectContainer'>        
+      <div className='header__selectContainer'>
         {stateTurns.doctors.length && (
           <select
             value={doctorSelected}

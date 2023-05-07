@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { AuthContext } from "../context/Auth/AuthProvider";
 import { TurnsContext } from "../context/Turns/TurnsProvider";
 import { parseDate } from "../utils/parseDate";
+import moment from "moment/moment";
 
 export const CardsTurnsPatient = ({ turn }) => {
   const { handleCancelTurns } = useContext(TurnsContext);
   const { state: user } = useContext(AuthContext);
 
+  const now = moment();
   return (
     <div className='turns__card' key={turn.id}>
       <div className='turns__image'>
@@ -22,15 +24,22 @@ export const CardsTurnsPatient = ({ turn }) => {
           <p>Hora:{turn.hour}</p>
           <p>Precio: {turn.patient.coverage ? "Cobertura Wiri" : "$1500"}</p>
           <p className='turns__status'>
-            Estado: <span className='turns__status-green'>Reservado</span>
+            Estado:{" "}
+            <span className='turns__status-green'>
+              {moment(turn.date).isBefore(now) ? "Atendido" : "Reservado"}
+            </span>
           </p>
         </div>
-        <button
-          className='turns__button-cancel'
-          onClick={() => handleCancelTurns(turn, user)}
-        >
-          Cancelar
-        </button>
+        {moment(turn.date).isBefore(now) ? (
+          <div style={{ width: "8rem" }}></div>
+        ) : (
+          <button
+            className='turns__button-cancel'
+            onClick={() => handleCancelTurns(turn, user)}
+          >
+            Cancelar
+          </button>
+        )}
       </div>
     </div>
   );

@@ -19,12 +19,20 @@ const TurnsProvider = ({ children }) => {
   const [title, setTitle] = useState(false);
 
   const getDoctors = async () => {
-    const { data } = await client.get("/get_doctors", tokenAuth());
+    try {
+      const { data } = await client.get("/get_doctors", tokenAuth());
 
-    dispatch({
-      type: GET_DOCTORS,
-      payload: data,
-    });
+      dispatch({
+        type: GET_DOCTORS,
+        payload: data,
+      });
+    } catch (error) {
+      showAlert({
+        msg: error.response.data.msg ?? error.message,
+        error: true,
+      });
+      setLoading(false);
+    }
   };
 
   const getTurns = async (id) => {
@@ -41,6 +49,10 @@ const TurnsProvider = ({ children }) => {
       });
       setLoading(false);
     } catch (error) {
+      showAlert({
+        msg: error.response.data.msg ?? error.message,
+        error: true,
+      });
       setLoading(false);
     }
   };
@@ -64,12 +76,11 @@ const TurnsProvider = ({ children }) => {
       });
       return data;
     } catch (error) {
-      showAlert({
-        msg: error.response.data.msg,
-        error: true,
-      });
       setLoading(false);
-      throw error;
+      showAlert({
+        msg: error.response.data.msg ?? error.message,
+        error: true,
+      });      
     }
   };
 
@@ -96,15 +107,15 @@ const TurnsProvider = ({ children }) => {
         error: false,
       });
       setLoading(false);
-    } catch (error) {
-      showAlert({
-        msg: error.response.data.msg,
-        error: true,
-      });
+    } catch (error) {     
       setLoading(false);
+      showAlert({
+        msg: error.response.data.msg ?? error.message,
+        error: true,
+      });    
     }
   };
-  const handleGetTurnsDoctor = async ({id, start_date, end_date}) => {    
+  const handleGetTurnsDoctor = async ({ id, start_date, end_date }) => {
     try {
       setLoading(true);
       const { data } = await client.get("/turns-doctor", {
@@ -119,6 +130,10 @@ const TurnsProvider = ({ children }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      showAlert({
+        msg: error.response.data.msg ?? error.message,
+        error: true,
+      });    
     }
   };
 
